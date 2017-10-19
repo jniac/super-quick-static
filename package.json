@@ -1,0 +1,23 @@
+{
+  "name": "super-quick-static",
+  "version": "0.0.0",
+  "description": "serves static files... but transpiles if possible (less to css, pug to html)",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "incoming"
+  },
+  "keywords": [
+    "http",
+    "serve",
+    "static",
+    "pug",
+    "sass",
+    "quick"
+  ],
+  "author": "Joseph Merdrignac",
+  "license": "ISC"
+}
