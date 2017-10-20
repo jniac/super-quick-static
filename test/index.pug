@@ -1,0 +1,21 @@
+html
+	head
+		title héhé
+		link(rel='stylesheet', type='text/css', href='style.css')
+		style
+			:sass
+				body
+					font-family: monospace
+
+				h1
+					margin-bottom: 20px
+					font-size: 3em
+					color: #fc0
+
+	body
+
+		block body
+		h1 super-quick-static: hello!
+		p this page is served from a pug template, 
+			| <br>including sass link #{'<link>'}
+			| <br>and sass content #{'<style>'}

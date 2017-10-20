@@ -2,7 +2,7 @@
   "name": "super-quick-static",
   "version": "0.0.0",
   "description": "serves static files... but transpiles if possible (less to css, pug to html)",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "test"
   },
@@ -19,5 +19,11 @@
     "quick"
   ],
   "author": "Joseph Merdrignac",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.2.0",
+    "express": "^4.16.2",
+    "node-sass": "^4.5.3",
+    "pug": "^2.0.0-rc.4"
+  }
 }
