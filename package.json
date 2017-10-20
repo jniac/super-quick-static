@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "incoming"
+    "url": "git+https://github.com/jniac/super-quick-static"
   },
   "keywords": [
     "http",
@@ -16,7 +16,8 @@
     "static",
     "pug",
     "sass",
-    "quick"
+    "quick",
+    "development"
   ],
   "author": "Joseph Merdrignac",
   "license": "ISC",
