@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/jniac/super-quick-static"
   },
+  "bin": {
+    "super-quick-static": "src/index.js"
+  },
   "keywords": [
     "http",
     "serve",
