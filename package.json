@@ -1,6 +1,6 @@
 {
   "name": "super-quick-static",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "serves static files... but transpiles if possible (less to css, pug to html)",
   "main": "src/index.js",
   "scripts": {
