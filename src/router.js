@@ -10,7 +10,7 @@ let router = express.Router()
 
 router.get('/reset.css', (req, res) => {
 
-	let filename = path.join(process.cwd(), 'src/reset.css')
+	let filename = path.join(__dirname, 'reset.css')
 
 	res.sendFile(filename)
 

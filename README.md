@@ -25,3 +25,6 @@ as quick-static, super-quick-static allow
 # but most importantly...
 
 If a template file is found instead of a regular web file (pug / sass vs html / css, to begin) that file will be compiled / transpiled & served on the fly. 
+
+A reset css file is also available @ `localhost:${port}/reset.css`.
+See src/reset.css to get the source, it's a mix of the famous Meyer's reset.css and Paul Irish Box-Sizing recommandation
