@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.2.0",
+    "colors": "^1.1.2",
     "express": "^4.16.2",
     "node-sass": "^4.5.3",
     "pug": "^2.0.0-rc.4"

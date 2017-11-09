@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk')
+require('colors')
+
 const path = require('path')
 const fs = require('fs')
 const express = require('express')
@@ -26,7 +27,7 @@ rootdir = path.resolve(process.cwd(), rootdir)
 
 if (!fs.existsSync(rootdir)) {
 
-	console.log(`${chalk.red(rootdir)} is not a valid folder`)
+	console.log(`${rootdir.red} is not a valid folder`)
 	process.exit()
 
 }
@@ -68,8 +69,8 @@ function tryServer() {
 
 		let localhost = `http://localhost:${port}`
 
-		console.log(`    serving ${chalk.blue(rootdir)}`)
-		console.log(`    over ${chalk.red(localhost)}`)
+		console.log(`    serving ${rootdir.blue}`)
+		console.log(`    over ${localhost.red}`)
 
 	}).on('error', e => {
 
@@ -86,7 +87,7 @@ function tryServer() {
 
 			} else {
 
-				console.log(chalk.red(`    oups! the port ${port} is already in use!`))
+				console.log(`    oups! the port ${port} is already in use!`.red)
 
 			}
 

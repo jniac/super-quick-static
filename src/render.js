@@ -1,6 +1,5 @@
 const pug = require('pug')
 const sass = require('node-sass')
-const chalk = require('chalk')
 
 const time = () => {
 
@@ -49,7 +48,7 @@ let renderPugFile = function(filename) {
 
 	dt += time() * 1e3
 
-	log(`${chalk.blue('pug')} ${filename} ${chalk.red(dt.toFixed(3) + 'ms')}`)
+	log(`${'pug'.blue} ${filename.replace(process.cwd(), '.')} ${(dt.toFixed(3) + 'ms').red}`)
 
 	return html
 
@@ -69,7 +68,7 @@ let renderSassFile = function(filename) {
 
 	dt += time() * 1e3
 
-	log(`${chalk.blue('sass')} ${filename} ${chalk.red(dt.toFixed(3) + 'ms')}`)
+	log(`${'sass'.blue} ${filename.replace(process.cwd(), '.')} ${(dt.toFixed(3) + 'ms').red}`)
 
 	return result.css.toString()
 

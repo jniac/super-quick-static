@@ -1,0 +1,36 @@
+extends base
+
+block style
+	style
+		:sass
+			html
+				--hover-color: rgba(255,255,255, .1)
+
+			table
+				border-spacing: 0
+
+			table, td
+				border: white 1px solid
+				border-collapse: collapse
+
+			td
+				width: 180px
+				padding: 4px
+				user-select: none
+
+			td:hover
+				background-color: var(--hover-color) 
+
+block content
+
+	table
+		tbody
+			-var w = 6
+			-var h = 10
+
+			-var ih = 0
+			while ih++ < h
+				tr
+					-var iw = 0
+					while iw++ < w
+						td #{iw} - #{ih}

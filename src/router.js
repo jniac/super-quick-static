@@ -1,5 +1,4 @@
 
-const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
 const express = require('express')
@@ -15,20 +14,26 @@ router.use((req, res, next) => {
 
 	let filename = path.join(app.rootdir, req.url)
 
-	if (req.url.slice(-5) === '.html') {
+	// auto-fetch index.html
+	let stats = fs.existsSync(filename) && fs.statSync(filename)
+	if (stats && stats.isDirectory())
+		filename += 'index.html'
+
+	if (filename.slice(-5) === '.html') {
 
 		filename = filename.slice(0, -5) + '.pug'
 
 		if (fs.existsSync(filename)) {
 
 			let html = render.renderPugFile(filename)
+			res.type('html')
 			res.send(html)
 
 		}
 
 	}
 
-	if (req.url.slice(-4) === '.css') {
+	if (filename.slice(-4) === '.css') {
 
 		filename = filename.slice(0, -4) + '.sass'
 
