@@ -6,7 +6,7 @@ extends [quick-static](https://github.com/jniac/quick-static) concept to allow s
 	$ npm i super-quick-static -g
 
 ### usage
-as quick-static, super-quick-static allow	
+as quick-static, super-quick-static allows the following usages:	
 
 	$ super-quick-static 
 	// serve the current directory through http://localhost:8000
