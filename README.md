@@ -24,4 +24,4 @@ as quick-static, super-quick-static allow
 
 # but most importantly...
 
-If a template file is found instead of a regular web file (pug / sass vs html / css, to begin) that file will be compiled / transpiled & served.
+If a template file is found instead of a regular web file (pug / sass vs html / css, to begin) that file will be compiled / transpiled & served on the fly. 
