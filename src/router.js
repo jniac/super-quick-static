@@ -8,7 +8,13 @@ const render = require('./render.js')
 
 let router = express.Router()
 
+router.get('/reset.css', (req, res) => {
 
+	let filename = path.join(process.cwd(), 'src/reset.css')
+
+	res.sendFile(filename)
+
+})
 
 router.use((req, res, next) => {
 
