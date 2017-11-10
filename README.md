@@ -1,4 +1,5 @@
 # super-quick-static
+[npm](https://www.npmjs.com/package/super-quick-static)
 
 extends [quick-static](https://github.com/jniac/quick-static) ([@npm](https://www.npmjs.com/package/quick-static)) concept to allow some smart templates (sass, pug) to be served as regular files
 
