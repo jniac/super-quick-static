@@ -24,26 +24,109 @@ router.get('/favicon.ico', (req, res) => {
 
 })
 
+router.use('/iconmonstr', express.static(path.join(__dirname, 'iconmonstr')))
+
+
+
+
+
+function lookForPug(res, filename) {
+
+	if (!/\.(?:pug|html)$/.test(filename))
+		return false
+
+	filename = filename.replace(/\.html$/, '.pug')
+
+	if (fs.existsSync(filename)) {
+
+		let html = render.renderPugFile(filename)
+
+		res.type('html').send(html)
+
+		return true
+
+	}
+
+	return false
+
+}
+
+function getIndexFiles(filename) {
+
+	let files = fs.readdirSync(filename)
+
+	let out = []
+
+	for (let file of files) {
+
+		if (/^\.DS/.test(file))
+			continue
+
+		let stats = fs.statSync(path.join(filename, file))
+
+		out.push({
+
+			name: file, 
+			type: stats.isDirectory() ? 'dir' : 'file',
+
+		})
+
+		if (/\.pug$/.test(file)) {
+
+			out.push({
+
+				name: file.replace(/\.pug$/, '.html'),
+				type: 'super-file',
+
+			})
+
+		}
+
+		if (/\.sass$/.test(file)) {
+
+			out.push({
+
+				name: file.replace(/\.sass$/, '.css'),
+				type: 'super-file',
+
+			})
+
+		}
+
+	}
+
+	return out.sort((A, B) => {
+
+		return A.type === 'dir' ? (B.type === 'dir' ? 0 : -1) : (B.type === 'dir' ? 1 : 0)
+
+	})
+
+}
+
 router.use((req, res, next) => {
 
 	let filename = path.join(app.rootdir, req.url)
 
-	// auto-fetch index.html
+	if (lookForPug(res, filename))
+		return
+
 	let stats = fs.existsSync(filename) && fs.statSync(filename)
-	if (stats && stats.isDirectory())
-		filename += 'index.html'
+	
+	// auto-fetch index.html|pug
+	if (stats && stats.isDirectory() && lookForPug(res, filename + 'index.html'))
+		return
 
-	if (filename.slice(-5) === '.html') {
+	// assuming that index.html|pug has not been found,
+	// we can render a raw index
+	if (stats && stats.isDirectory()) {
 
-		filename = filename.slice(0, -5) + '.pug'
+		let files = getIndexFiles(filename)
 
-		if (fs.existsSync(filename)) {
+		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), { dir: filename, files })
 
-			let html = render.renderPugFile(filename)
-			res.type('html')
-			res.send(html)
+		res.type('html').send(html)
 
-		}
+		return
 
 	}
 

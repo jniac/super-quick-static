@@ -1,0 +1,55 @@
+html
+	head
+		title #{title}
+		link(rel="stylesheet" href="/reset.css")
+		link(rel="stylesheet" href="/iconmonstr/iconmonstr-iconic-font.css")
+		style
+			:sass
+				body
+					font-family: monospace
+					padding: 64px
+					color: #222
+
+				.file
+
+					&.super
+						font-style: italic
+						// padding-left: 24px
+
+					& + .file
+						margin-top: 10px
+
+					.im
+						margin-right: 4px
+						font-size: 14px
+						transform: translateY(.2em)
+
+				header
+					padding-bottom: 24px
+
+					h1 
+						font-size: 2em
+
+					> * + div
+						margin-top: 4px
+
+	body
+
+		header
+			//- h6 super-quick-static
+			h1 content of 
+			div #{dir}
+
+		each file in files
+			-var type = file.type === 'super-file' ? 'super' : 'normal'
+			.file(class=type)
+				a(href=file.name)
+
+					if file.type === 'dir'
+						span.im.im-folder
+					else if file.type === 'super-file'
+						span.im.im-flash
+					else
+						span.im.im-file
+
+					span #{file.name}

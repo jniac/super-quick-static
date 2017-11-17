@@ -52,10 +52,16 @@ module.exports = app
 
 app.use(express.static(rootdir, {
 
+	dotFiles: 'allow',
+
 	setHeaders: function (res, path, stat) {
-		
-		if(/\.[pug]$/.test(path))
+
+		if(/\.pug$/.test(path)) {
+
 			res.set('Content-Type', 'text/plain')
+			res.removeHeader('Content-Disposition')
+
+		}
 	
 	},
 

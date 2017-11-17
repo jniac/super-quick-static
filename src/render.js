@@ -35,12 +35,13 @@ let pugFilter = {
 
 }
 
-let renderPugFile = function(filename) {
+let renderPugFile = function(filename, options = {}) {
 
 	let dt = -time() * 1e3
 
 	let html = pug.renderFile(filename, { 
 
+		...options,
 		filters: pugFilter,
 		pretty: '\t',
 

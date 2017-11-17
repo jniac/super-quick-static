@@ -4,7 +4,8 @@
   "description": "serves static files... but transpiles if possible (less to css, pug to html)",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm install -g ."
+    "test":"node src/index.js auto",
+    "test-g": "npm install -g ."
   },
   "repository": {
     "type": "git",
