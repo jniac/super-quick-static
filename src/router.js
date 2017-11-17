@@ -66,7 +66,7 @@ function getIndexFiles(filename) {
 
 		out.push({
 
-			name: file, 
+			name: file + (stats.isDirectory() ? '/' : ''), 
 			type: stats.isDirectory() ? 'dir' : 'file',
 
 		})

@@ -5,7 +5,7 @@ serves static files... and css from sass, html from pug
 <br><br>use iconic fonts from [iconmonstr](https://iconmonstr.com/iconicfont/)
 
 ### install
-	$ npm i super-quick-static -g
+	$ npm i -g super-quick-static
 
 ### usage
 as quick-static, super-quick-static allows the following usages:	
