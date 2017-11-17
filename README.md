@@ -1,7 +1,8 @@
 # super-quick-static
+serves static files... and css from sass, html from pug
+<br><br>extends [quick-static](https://github.com/jniac/quick-static) ([@npm](https://www.npmjs.com/package/quick-static)) concept to allow some smart templates (sass, pug) to be served as regular files
 [npm](https://www.npmjs.com/package/super-quick-static)
-
-extends [quick-static](https://github.com/jniac/quick-static) ([@npm](https://www.npmjs.com/package/quick-static)) concept to allow some smart templates (sass, pug) to be served as regular files
+<br><br>use iconic fonts from [iconmonstr](https://iconmonstr.com/iconicfont/)
 
 ### install
 	$ npm i super-quick-static -g
