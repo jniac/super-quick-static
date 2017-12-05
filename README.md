@@ -30,3 +30,6 @@ If a template file is found instead of a regular web file (pug / sass vs html / 
 
 A reset css file is also available @ `localhost:${port}/reset.css`.
 See src/reset.css to get the source, it's a mix of the famous Meyer's reset.css and Paul Irish Box-Sizing recommandation
+
+![screenshot](https://raw.githubusercontent.com/jniac/super-quick-static/master/src/images/screen-1.png)
+![screenshot](https://raw.githubusercontent.com/jniac/super-quick-static/master/src/images/screen-2.png)
