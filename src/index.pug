@@ -51,26 +51,35 @@ html
 				input(type='checkbox')
 				span show only html
 
-		each file in files
-			-var type = file.type === 'super-file' ? 'super' : 'normal'
-			.file.show(class=type class='type-' + file.ext)
-				a(href=file.name)
+		.files
+			each file in files
+				-var type = file.type === 'super-file' ? 'super' : 'normal'
+				.file.show(class=type class='type-' + file.ext)
+					a(href=file.name)
 
-					if file.type === 'dir'
-						span.im.im-folder
-					else if file.type === 'super-file'
-						span.im.im-flash
-					else
-						span.im.im-file
+						if file.type === 'dir'
+							span.im.im-folder
+						else if file.type === 'super-file'
+							span.im.im-flash
+						else
+							span.im.im-file
 
-					span #{file.name}
+						span #{file.name}
 
 		script.
+
+			let filesDiv = document.querySelector('.files')
+			let divs = document.querySelectorAll('.files .file')
+
 			document.querySelector('.filter input').onchange = event => {
 
 				let filter = event.target.checked
 
-				for (let div of document.querySelectorAll('.file'))
-					div.classList.toggle('show', filter ? div.matches('.type-html') : true)
+				while(filesDiv.firstElementChild)
+					filesDiv.firstElementChild.remove()
+
+				for (let div of divs)
+					if (!filter || div.matches('.type-html'))
+						filesDiv.appendChild(div)
 
 			}
