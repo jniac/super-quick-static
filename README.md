@@ -24,9 +24,9 @@ as quick-static, super-quick-static allows the following usages:
 	// if the port 4000 is not available, 
 	// will search for the next available port
 
-# but most importantly...
+# but more importantly...
 
-If a template file is found instead of a regular web file (pug / sass vs html / css, to begin) that file will be compiled / transpiled & served on the fly. 
+If a template file is found instead of a regular web file (pug / sass vs html / css, to begin, markdown will follow) that file will be compiled / transpiled & served on the fly. 
 
 A reset css file is also available @ `localhost:${port}/reset.css`.
 See src/reset.css to get the source, it's a mix of the famous Meyer's reset.css and Paul Irish Box-Sizing recommandation
