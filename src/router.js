@@ -2,11 +2,16 @@
 const path = require('path')
 const fs = require('fs')
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = require('./index.js')
 const render = require('./render.js')
 
 let router = express.Router()
+
+router.use(bodyParser.urlencoded({ extended: false }))
+
+router.use(bodyParser.json())
 
 router.get('/reset.css', (req, res) => {
 
@@ -24,7 +29,29 @@ router.get('/favicon.ico', (req, res) => {
 
 })
 
-router.use('/iconmonstr', express.static(path.join(__dirname, 'iconmonstr')))
+router.use('/fonts', express.static(path.join(__dirname, 'fonts')))
+
+
+
+
+
+// save directory's display options into user.json
+
+let options = fs.existsSync('./user.json') ? JSON.parse(fs.readFileSync('./user.json')) : { directories: {} }
+
+router.post('/dir-options', (req, res) => {
+
+	options.directories[req.body.filename] = req.body.filter
+
+	fs.writeFileSync('./user.json', JSON.stringify(options, null, '\t'))
+
+	res.send('ok')
+
+})
+
+
+
+
 
 
 
@@ -134,7 +161,13 @@ router.use((req, res, next) => {
 
 		let files = getIndexFiles(filename)
 
-		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), { dir: filename, files })
+		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), { 
+
+			files, 
+			dir: filename, 
+			filter: options.directories[filename],
+
+		})
 
 		res.type('html').send(html)
 

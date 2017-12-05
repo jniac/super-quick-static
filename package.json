@@ -26,8 +26,10 @@
   "author": "Joseph Merdrignac",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "colors": "^1.1.2",
     "express": "^4.16.2",
+    "marker": "^0.1.2",
     "node-sass": "^4.5.3",
     "pug": "^2.0.0-rc.4"
   }
