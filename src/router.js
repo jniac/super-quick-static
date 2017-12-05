@@ -23,7 +23,7 @@ router.get('/reset.css', (req, res) => {
 
 router.get('/favicon.ico', (req, res) => {
 
-	let filename = path.join(__dirname, 'icon.png')
+	let filename = path.join(__dirname, 'images', 'icon.png')
 
 	res.sendFile(filename)
 
