@@ -1,7 +1,7 @@
 const pug = require('pug')
 const sass = require('node-sass')
 
-const time = () => {
+const now = () => {
 
 	let [s, ns] = process.hrtime()
 	return s + ns / 1e9
@@ -37,7 +37,7 @@ let pugFilter = {
 
 let renderPugFile = function(filename, options = {}) {
 
-	let dt = -time() * 1e3
+	let dt = -now() * 1e3
 
 	let html = pug.renderFile(filename, { 
 
@@ -47,7 +47,7 @@ let renderPugFile = function(filename, options = {}) {
 
 	})
 
-	dt += time() * 1e3
+	dt += now() * 1e3
 
 	log(`${'pug'.blue} ${filename.replace(process.cwd(), '.')} ${(dt.toFixed(3) + 'ms').red}`)
 
@@ -57,7 +57,7 @@ let renderPugFile = function(filename, options = {}) {
 
 let renderSassFile = function(filename) {
 
-	let dt = -time() * 1e3
+	let dt = -now() * 1e3
 
 	let result = sass.renderSync({
 		file: filename,
@@ -67,7 +67,7 @@ let renderSassFile = function(filename) {
 		indentWidth: 1,
 	})
 
-	dt += time() * 1e3
+	dt += now() * 1e3
 
 	log(`${'sass'.blue} ${filename.replace(process.cwd(), '.')} ${(dt.toFixed(3) + 'ms').red}`)
 

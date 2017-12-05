@@ -16,8 +16,12 @@ html
 						font-style: italic
 						// padding-left: 24px
 
-					& + .file
+
+					&.show + .file.show
 						margin-top: 10px
+
+					&:not(.show)
+						display: none
 
 					.im
 						margin-right: 4px
@@ -33,6 +37,9 @@ html
 					> * + div
 						margin-top: 4px
 
+					.filter
+						color: #999
+
 	body
 
 		header
@@ -40,9 +47,13 @@ html
 			h1 content of 
 			div #{dir}
 
+			.filter
+				input(type='checkbox')
+				span show only html
+
 		each file in files
 			-var type = file.type === 'super-file' ? 'super' : 'normal'
-			.file(class=type)
+			.file.show(class=type class='type-' + file.ext)
 				a(href=file.name)
 
 					if file.type === 'dir'
@@ -53,3 +64,13 @@ html
 						span.im.im-file
 
 					span #{file.name}
+
+		script.
+			document.querySelector('.filter input').onchange = event => {
+
+				let filter = event.target.checked
+
+				for (let div of document.querySelectorAll('.file'))
+					div.classList.toggle('show', filter ? div.matches('.type-html') : true)
+
+			}

@@ -51,6 +51,14 @@ function lookForPug(res, filename) {
 
 }
 
+function ext(filename) {
+
+	let a = filename.match(/\.\w+$/)
+
+	return a ? a[0].slice(1) : ''
+
+}
+
 function getIndexFiles(filename) {
 
 	let files = fs.readdirSync(filename)
@@ -68,6 +76,7 @@ function getIndexFiles(filename) {
 
 			name: file + (stats.isDirectory() ? '/' : ''), 
 			type: stats.isDirectory() ? 'dir' : 'file',
+			ext: ext(file),
 
 		})
 
@@ -77,6 +86,7 @@ function getIndexFiles(filename) {
 
 				name: file.replace(/\.pug$/, '.html'),
 				type: 'super-file',
+				ext: 'html',
 
 			})
 
@@ -88,6 +98,7 @@ function getIndexFiles(filename) {
 
 				name: file.replace(/\.sass$/, '.css'),
 				type: 'super-file',
+				ext: 'css',
 
 			})
 
@@ -113,8 +124,9 @@ router.use((req, res, next) => {
 	let stats = fs.existsSync(filename) && fs.statSync(filename)
 	
 	// auto-fetch index.html|pug
-	if (stats && stats.isDirectory() && lookForPug(res, filename + 'index.html'))
-		return
+	// disabled for the moment, shoud be an option
+	// if (stats && stats.isDirectory() && lookForPug(res, filename + 'index.html'))
+	// 	return
 
 	// assuming that index.html|pug has not been found,
 	// we can render a raw index
