@@ -33,17 +33,17 @@ router.use('/fonts', express.static(path.join(__dirname, 'fonts')))
 
 
 
-
+let userJsonFilename = path.resolve(__dirname, '..', 'user.json')
 
 // save directory's display options into user.json
 
-let options = fs.existsSync('./user.json') ? JSON.parse(fs.readFileSync('./user.json')) : { directories: {} }
+let options = fs.existsSync(userJsonFilename) ? JSON.parse(fs.readFileSync(userJsonFilename)) : { directories: {} }
 
 router.post('/dir-options', (req, res) => {
 
 	options.directories[req.body.filename] = req.body.filter
 
-	fs.writeFileSync('./user.json', JSON.stringify(options, null, '\t'))
+	fs.writeFileSync(userJsonFilename, JSON.stringify(options, null, '\t'))
 
 	res.send('ok')
 
