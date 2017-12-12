@@ -36,4 +36,3 @@ See src/reset.css to get the source, it's a mix of the famous Meyer's reset.css 
 <img src="https://raw.githubusercontent.com/jniac/super-quick-static/master/src/images/terminal-screen-1.png" width="65%"/>
 <img src="https://raw.githubusercontent.com/jniac/super-quick-static/master/src/images/chrome-screen-1.png" width="65%"/>
 <img src=https://cdn.rawgit.com/jniac/super-quick-static/master/src/images/chrome-screen-1.png" width="65%"/>
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
