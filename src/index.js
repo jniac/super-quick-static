@@ -12,15 +12,26 @@ const express = require('express')
 
 
 
-const args = process.argv.slice(2).reduce((acc, arg) => {
+const args = Object.assign({
+
+	port: 8000,
+	auto: true,
+
+}, process.argv.slice(2).reduce((args, arg) => {
+
+	if (/^\d{4,5}$/.test(arg)) {
+
+		args.port = parseFloat(arg)
+		return args
+
+	}
 
 	let [k, v] = arg.split('=')
-	acc[k] = v === undefined ? true : /true|false/.test(v) ? v === 'true' : /\d+/.test(v) ? Number(v) : v
-	return acc
+	args[k] = v === undefined ? true : /true|false/.test(v) ? v === 'true' : /\d+/.test(v) ? Number(v) : v
+	return args
 
-}, {})
+}, {}))
 
-let [port = 8000] = process.argv.slice(2).filter(v => /\d+/.test(v)).map(parseFloat)
 let [rootdir = '.'] = process.argv.slice(2).filter(v => /\.|\//.test(v))
 
 rootdir = path.resolve(process.cwd(), rootdir)
@@ -32,6 +43,8 @@ if (!fs.existsSync(rootdir)) {
 
 }
 
+console.log(args)
+
 
 
 // - - -
@@ -39,7 +52,14 @@ if (!fs.existsSync(rootdir)) {
 
 
 let app = express()
+let port = args.port
 
+if (port < 1024 || port >= 65536) {
+
+	console.log(`invalid port number! ${port}`.red)
+	process.exit()
+
+}
 
 Object.assign(app, {
 

@@ -1,6 +1,6 @@
 {
   "name": "super-quick-static",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "serves static files... and css from sass, html from pug",
   "main": "src/index.js",
   "scripts": {
@@ -25,6 +25,9 @@
   ],
   "author": "Joseph Merdrignac",
   "license": "ISC",
+  "engines": { 
+    "node" : ">=8.0.0"
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "colors": "^1.1.2",
