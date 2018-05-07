@@ -1,10 +1,11 @@
 # super-quick-static
-**express + pug + sass**  
+**[express](https://www.npmjs.com/package/express) + [pug](https://www.npmjs.com/package/pug) + [sass](https://www.npmjs.com/package/sass)**  
 serves static files... and `css` from `sass`, `html` from `pug`
 
 extends [quick-static](https://github.com/jniac/quick-static) ([@npm](https://www.npmjs.com/package/quick-static)) concept to allow some source/template files (sass, pug) to be served as regular files  
 
 iconic fonts from [iconmonstr](https://iconmonstr.com/iconicfont/)  
+[Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) for browse pages (`src/index.pug`)
 
 
 ### install
@@ -32,13 +33,13 @@ $ super-quick-static . 4000
 
 # but more importantly...
 
-### • auto-conversion
+### auto-conversion
 If a **template/source** file is found instead of a regular web file (pug / sass vs html / css, to begin, markdown will follow) that file will be compiled / transpiled & served on the fly.  
 eg:   
 `a/first/path/index.pug` will be served via `a/first/path/index.html` or `a/first/path/`  
 `another/path/main.sass` will be served via `another/path/main.css`
 
-### • reset css
+### reset css
 A reset css file is also available @ `localhost:${port}/reset.css`.  
 See src/reset.css to get the source, it's a mix of the famous Meyer's reset.css and [Paul Irish Box-Sizing recommandation](https://www.paulirish.com/2012/box-sizing-border-box-ftw/) (source `src/reset.css`).
 
