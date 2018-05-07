@@ -1,5 +1,5 @@
 const pug = require('pug')
-const sass = require('node-sass')
+const sass = require('sass')
 
 const now = () => {
 
@@ -17,11 +17,23 @@ function log(msg) {
 
 }
 
+const sassInfo = (str, max = 36) => {
+
+	let info = ` (${str.split('\n').length} lines, ${str.length} chars)`
+
+	str = str.trim().replace(/\s+/g, ' ')
+
+	return (str.length > max ? str.slice(0, max - 3) + '...' : str) + info
+
+}
+
 let pugFilter = {
 
-	sass(data) {
+	sass: data => {
 
-		let result = sass.renderSync({ 
+		let dt = -now() * 1e3
+
+		let result = sass.renderSync({
 			data,
 			indentedSyntax: true,
 			outputStyle : 'expanded',
@@ -29,7 +41,15 @@ let pugFilter = {
 			indentWidth: 1,
 		})
 
+		dt += now() * 1e3
+
+		log(`${'sass (filter)'.blue} ${sassInfo(data)} ${(dt.toFixed(3) + 'ms').red}`)
+
 		return '\n' + result.css.toString()
+
+	},
+
+	filter: data => {
 
 	},
 
@@ -39,7 +59,7 @@ let renderPugFile = function(filename, options = {}) {
 
 	let dt = -now() * 1e3
 
-	let html = pug.renderFile(filename, { 
+	let html = pug.renderFile(filename, {
 
 		...options,
 		filters: pugFilter,
