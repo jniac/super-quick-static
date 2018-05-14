@@ -10,7 +10,9 @@ const express = require('express')
 
 // - - -
 
+const packageJSON = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'))
 
+console.log(`${packageJSON.name} ${packageJSON.version.green}`)
 
 const args = Object.assign({
 
@@ -82,7 +84,7 @@ app.use(express.static(rootdir, {
 			res.removeHeader('Content-Disposition')
 
 		}
-	
+
 	},
 
 }))
@@ -103,9 +105,9 @@ function tryServer() {
 		if (e.code === 'EADDRINUSE') {
 
 			if (args.auto) {
-				
+
 				console.log(`    (auto) the port ${port} is already used...`)
-				
+
 				port++
 
 				if (port < 65536)
@@ -124,9 +126,7 @@ function tryServer() {
 		}
 
 	})
-	
+
 }
 
 tryServer()
-
-
