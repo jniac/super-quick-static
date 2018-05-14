@@ -170,7 +170,7 @@ router.use((req, res, next) => {
 
 		}
 
-		files = files.sort((A, B) => A.sortKey > B.sortKey)
+		files = files.sort((A, B) => A.sortKey > B.sortKey ? 1 : -1)
 
 		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), {
 
