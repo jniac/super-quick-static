@@ -101,7 +101,7 @@ function getIndexFiles(filename) {
 
 		out.push({
 
-			name: file + (stats.isDirectory() ? '/' : ''), 
+			name: file + (stats.isDirectory() ? '/' : ''),
 			type: stats.isDirectory() ? 'dir' : 'file',
 			ext: ext(file),
 
@@ -149,7 +149,7 @@ router.use((req, res, next) => {
 		return
 
 	let stats = fs.existsSync(filename) && fs.statSync(filename)
-	
+
 	// auto-fetch index.html|pug
 	// disabled for the moment, shoud be an option
 	// if (stats && stats.isDirectory() && lookForPug(res, filename + 'index.html'))
@@ -161,10 +161,21 @@ router.use((req, res, next) => {
 
 		let files = getIndexFiles(filename)
 
-		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), { 
+		for (let file of files) {
 
-			files, 
-			dir: filename, 
+			// { name: '.git/', type: 'dir', ext: 'git' }
+			// { name: 'package.json', type: 'file', ext: 'json' }
+			let name = file.type === 'folder' ? file.name : file.name.replace(/\.\w{3,4}$/, '')
+			file.sortKey = file.type + '-' + name.toLowerCase()
+
+		}
+
+		files = files.sort((A, B) => A.sortKey > B.sortKey)
+
+		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), {
+
+			files,
+			dir: filename,
 			filter: options.directories[filename],
 
 		})
@@ -199,5 +210,3 @@ module.exports = {
 	router,
 
 }
-
-
