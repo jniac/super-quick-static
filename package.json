@@ -1,6 +1,6 @@
 {
   "name": "super-quick-static",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "serves static files... and css from sass, html from pug",
   "main": "src/index.js",
   "scripts": {
