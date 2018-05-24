@@ -34,10 +34,11 @@ $ super-quick-static . 4000
 # but more importantly...
 
 ### auto-conversion
-If a **template/source** file is found instead of a regular web file (pug / sass vs html / css, to begin, markdown will follow) that file will be compiled / transpiled & served on the fly.  
-eg:   
-`a/first/path/index.pug` will be served via `a/first/path/index.html` or `a/first/path/`  
-`another/path/main.sass` will be served via `another/path/main.css`
+
+- **sass**: `any/style.sass > any/style.css`
+- **pug**: `any/template.pug > any/template.html`
+- **md**: `any/note.md > any/note.html` (github flavoured style)
+
 
 ### reset css
 A reset css file is also available @ `localhost:${port}/reset.css`.  

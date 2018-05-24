@@ -13,14 +13,6 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 router.use(bodyParser.json())
 
-// router.get('/reset.css', (req, res) => {
-//
-// 	let filename = path.join(__dirname, 'reset.css')
-//
-// 	res.sendFile(filename)
-//
-// })
-
 router.use(express.static(path.join(__dirname, 'static')))
 
 router.get('/favicon.ico', (req, res) => {
@@ -61,7 +53,7 @@ router.post('/dir-options', (req, res) => {
 
 function lookForPug(res, filename) {
 
-	if (!/\.(?:pug|html)$/.test(filename))
+	if (!/\.(pug|html)$/.test(filename))
 		return false
 
 	filename = filename.replace(/\.html$/, '.pug')
@@ -92,7 +84,7 @@ function getIndexFiles(filename) {
 
 	let files = fs.readdirSync(filename)
 
-	let out = []
+	let array = []
 
 	for (let file of files) {
 
@@ -101,7 +93,7 @@ function getIndexFiles(filename) {
 
 		let stats = fs.statSync(path.join(filename, file))
 
-		out.push({
+		array.push({
 
 			name: file + (stats.isDirectory() ? '/' : ''),
 			type: stats.isDirectory() ? 'dir' : 'file',
@@ -111,10 +103,11 @@ function getIndexFiles(filename) {
 
 		if (/\.pug$/.test(file)) {
 
-			out.push({
+			array.push({
 
 				name: file.replace(/\.pug$/, '.html'),
-				type: 'super-file',
+				type: 'file',
+				'superFile': true,
 				ext: 'html',
 
 			})
@@ -123,11 +116,25 @@ function getIndexFiles(filename) {
 
 		if (/\.sass$/.test(file)) {
 
-			out.push({
+			array.push({
 
 				name: file.replace(/\.sass$/, '.css'),
-				type: 'super-file',
+				type: 'file',
+				'superFile': true,
 				ext: 'css',
+
+			})
+
+		}
+
+		if (/\.md$/.test(file)) {
+
+			array.push({
+
+				name: file.replace(/\.md/, '.html'),
+				type: 'file',
+				'superFile': true,
+				ext: 'html',
 
 			})
 
@@ -135,20 +142,75 @@ function getIndexFiles(filename) {
 
 	}
 
-	return out.sort((A, B) => {
+	for (let file of array) {
 
-		return A.type === 'dir' ? (B.type === 'dir' ? 0 : -1) : (B.type === 'dir' ? 1 : 0)
+		// { name: '.git/', type: 'dir', ext: 'git' }
+		// { name: 'package.json', type: 'file', ext: 'json' }
 
-	})
+		let { name, type, superFile } = file
+
+		name = type === 'folder' ? name : name.replace(/\.\w{1,4}$/, '')
+
+		file.sortKey = `${type}-${name.toLowerCase()}-${superFile ? 'superFile' : ''}`
+
+
+	}
+
+	return array.sort((A, B) => A.sortKey > B.sortKey ? 1 : -1)
+
+}
+
+const lookForHtml = (filename, res) => {
+
+	if (fs.existsSync(filename)) {
+
+		let html = fs.readFileSync(filename, 'utf8')
+
+		res.type('html').send(html)
+
+		return true
+
+	}
+
+	return false
+
+}
+
+const lookForMarkdown = (filename, ext, res) => {
+
+	filename = filename.slice(0, -ext.length) + '.md'
+
+	if (fs.existsSync(filename)) {
+
+		let html = render.renderMarkdownFile(filename)
+
+		res.type('html').send(html)
+
+		return true
+
+	}
+
+	return false
 
 }
 
 router.use((req, res, next) => {
 
 	let filename = path.join(app.rootdir, req.url)
+	let ext = path.extname(req.url)
 
-	if (lookForPug(res, filename))
-		return
+	if (ext === '.html') {
+
+		if (lookForHtml(filename, res))
+			return
+
+		if (lookForMarkdown(filename, ext, res))
+			return
+
+		if (lookForPug(res, filename))
+			return
+
+	}
 
 	let stats = fs.existsSync(filename) && fs.statSync(filename)
 
@@ -162,17 +224,6 @@ router.use((req, res, next) => {
 	if (stats && stats.isDirectory()) {
 
 		let files = getIndexFiles(filename)
-
-		for (let file of files) {
-
-			// { name: '.git/', type: 'dir', ext: 'git' }
-			// { name: 'package.json', type: 'file', ext: 'json' }
-			let name = file.type === 'folder' ? file.name : file.name.replace(/\.\w{3,4}$/, '')
-			file.sortKey = file.type + '-' + name.toLowerCase()
-
-		}
-
-		files = files.sort((A, B) => A.sortKey > B.sortKey ? 1 : -1)
 
 		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), {
 

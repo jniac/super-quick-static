@@ -59,7 +59,7 @@ html
 
 			.filter
 				input(type='checkbox')
-				span dir, html only
+				span dir & html only
 
 		.entries
 			.entry.dir.parent-directory
@@ -67,13 +67,13 @@ html
 					span.icon.im.im-arrow-left 
 					span parent directory
 			each file in files
-				-var type = file.type === 'super-file' ? 'super' : 'normal'
+				-var type = file['superFile'] ? 'super' : 'normal'
 				.entry.show(class=file.type class=type class='type-' + file.ext)
 					a(href=file.name)
 
 						if file.type === 'dir'
 							span.icon.im.im-folder
-						else if file.type === 'super-file'
+						else if file.type === 'superFile'
 							span.icon.im.im-flash
 						else
 							span.icon.im.im-file-o
