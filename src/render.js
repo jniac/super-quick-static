@@ -1,3 +1,7 @@
+// rendering SASS & PUG
+// TODO: add MarkDown rendering
+// TODO: cached results using pug.compile instead of pug.render
+
 const pug = require('pug')
 const sass = require('sass')
 
