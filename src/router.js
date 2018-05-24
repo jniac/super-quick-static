@@ -13,13 +13,15 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 router.use(bodyParser.json())
 
-router.get('/reset.css', (req, res) => {
+// router.get('/reset.css', (req, res) => {
+//
+// 	let filename = path.join(__dirname, 'reset.css')
+//
+// 	res.sendFile(filename)
+//
+// })
 
-	let filename = path.join(__dirname, 'reset.css')
-
-	res.sendFile(filename)
-
-})
+router.use(express.static(path.join(__dirname, 'static')))
 
 router.get('/favicon.ico', (req, res) => {
 

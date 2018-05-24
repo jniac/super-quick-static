@@ -1,41 +1,22 @@
+
 // rendering SASS & PUG
-// TODO: add MarkDown rendering
 // TODO: cached results using pug.compile instead of pug.render
 
+const { dirname, join } = require('path')
 const pug = require('pug')
 const sass = require('sass')
 
-const now = () => {
-
-	let [s, ns] = process.hrtime()
-	return s + ns / 1e9
-
-}
+const { log, now, solveRgba, safeLoad, sassInfo } = require('./render.utils.js')
 
 
-let logPrefix = ' '.repeat(8) + 'render '
-
-function log(msg) {
-
-	console.log(logPrefix + msg)
-
-}
-
-const sassInfo = (str, max = 36) => {
-
-	let info = ` (${str.split('\n').length} lines, ${str.length} chars)`
-
-	str = str.trim().replace(/\s+/g, ' ')
-
-	return (str.length > max ? str.slice(0, max - 3) + '...' : str) + info
-
-}
 
 let pugFilter = {
 
 	sass: data => {
 
 		let dt = -now() * 1e3
+
+		data = solveRgba(data)
 
 		let result = sass.renderSync({
 			data,
@@ -53,11 +34,9 @@ let pugFilter = {
 
 	},
 
-	filter: data => {
-
-	},
-
 }
+
+
 
 let renderPugFile = function(filename, options = {}) {
 
@@ -79,12 +58,23 @@ let renderPugFile = function(filename, options = {}) {
 
 }
 
+
+
 let renderSassFile = function(filename) {
 
 	let dt = -now() * 1e3
 
+	let data = safeLoad(filename)
+
+	let dir = dirname(filename)
+
+	data = data
+		.replace(/@import '(.*)'/g, (_, path) => safeLoad(join(dir, path)) + '\n')
+
+	let preDt = now() * 1e3 + dt
+
 	let result = sass.renderSync({
-		file: filename,
+		data,
 		indentedSyntax: true,
 		outputStyle : 'expanded',
 		indentType: 'tab',
@@ -93,7 +83,7 @@ let renderSassFile = function(filename) {
 
 	dt += now() * 1e3
 
-	log(`${'sass'.blue} ${filename.replace(process.cwd(), '.')} ${(dt.toFixed(3) + 'ms').red}`)
+	log(`${'sass'.blue} ${filename.replace(process.cwd(), '.')} ${(dt.toFixed(3) + 'ms').red} (${preDt.toFixed(3)}ms)`)
 
 	return result.css.toString()
 
