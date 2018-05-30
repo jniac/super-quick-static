@@ -102,14 +102,19 @@ const renderMarkdownFile = filename => {
     <head>
         <meta charset="utf-8">
         <title></title>
+		<link rel="stylesheet" href="/reset.css">
 		<link rel="stylesheet" href="/github-markdown.css">
 		<style>
+			html {
+				background-color: #eee;
+			}
 			.markdown-body {
 				box-sizing: border-box;
 				min-width: 200px;
 				max-width: 980px;
 				margin: 0 auto;
 				padding: 45px;
+				background-color: white;
 			}
 
 			@media (max-width: 767px) {
