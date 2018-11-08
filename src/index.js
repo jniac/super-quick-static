@@ -5,6 +5,7 @@ require('colors')
 const path = require('path')
 const fs = require('fs')
 const express = require('express')
+const ip = require('ip')
 
 
 
@@ -96,9 +97,10 @@ function tryServer() {
 	app.listen(port, () => {
 
 		let localhost = `http://localhost:${port}`
+		let lan = `http://${ip.address()}:${port}`
 
 		console.log(`    serving ${rootdir.blue}`)
-		console.log(`    over ${localhost.red}`)
+		console.log(`    over ${localhost.red} - or - ${lan.red}`)
 
 	}).on('error', e => {
 
