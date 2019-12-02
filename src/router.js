@@ -1,5 +1,5 @@
 
-const path = require('path')
+const Path = require('path')
 const fs = require('fs')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -13,21 +13,21 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 router.use(bodyParser.json())
 
-router.use(express.static(path.join(__dirname, 'static')))
+router.use(express.static(Path.join(__dirname, 'static')))
 
 router.get('/favicon.ico', (req, res) => {
 
-	let filename = path.join(__dirname, 'images', 'icon.png')
+	let filename = Path.join(__dirname, 'images', 'icon.png')
 
 	res.sendFile(filename)
 
 })
 
-router.use('/fonts', express.static(path.join(__dirname, 'fonts')))
+router.use('/fonts', express.static(Path.join(__dirname, 'fonts')))
 
 
 
-let userJsonFilename = path.resolve(__dirname, '..', 'user.json')
+let userJsonFilename = Path.resolve(__dirname, '..', 'user.json')
 
 // save directory's display options into user.json
 
@@ -51,12 +51,13 @@ router.post('/dir-options', (req, res) => {
 
 
 
-function lookForPug(res, filename) {
+function lookForPug(filename, res) {
 
 	if (!/\.(pug|html)$/.test(filename))
 		return false
 
-	filename = filename.replace(/\.html$/, '.pug')
+	filename = filename.replace(/\.html.*/, '.pug')
+	console.log(filename)
 
 	if (fs.existsSync(filename)) {
 
@@ -91,7 +92,7 @@ function getIndexFiles(filename) {
 		if (/^\.DS/.test(file))
 			continue
 
-		let stats = fs.statSync(path.join(filename, file))
+		let stats = fs.statSync(Path.join(filename, file))
 
 		array.push({
 
@@ -176,9 +177,9 @@ const lookForHtml = (filename, res) => {
 
 }
 
-const lookForMarkdown = (filename, ext, res) => {
+const lookForMarkdown = (filename, res) => {
 
-	filename = filename.slice(0, -ext.length) + '.md'
+	filename = filename.replace(/\.\w+/, '.md')
 
 	if (fs.existsSync(filename)) {
 
@@ -196,18 +197,18 @@ const lookForMarkdown = (filename, ext, res) => {
 
 router.use((req, res, next) => {
 
-	let filename = path.join(app.rootdir, req.url)
-	let ext = path.extname(req.url)
+	let filename = Path.join(app.rootdir, req.path)
+	let ext = req.path.slice(-5)
 
-	if (ext === '.html') {
+	if (req.path.slice(-5) === '.html') {
 
 		if (lookForHtml(filename, res))
 			return
 
-		if (lookForMarkdown(filename, ext, res))
+		if (lookForMarkdown(filename, res))
 			return
 
-		if (lookForPug(res, filename))
+		if (lookForPug(filename, res))
 			return
 
 	}
@@ -225,7 +226,7 @@ router.use((req, res, next) => {
 
 		let files = getIndexFiles(filename)
 
-		let html = render.renderPugFile(path.join(__dirname, 'index.pug'), {
+		let html = render.renderPugFile(Path.join(__dirname, 'index.pug'), {
 
 			files,
 			dir: filename,
