@@ -57,7 +57,6 @@ function lookForPug(filename, res) {
 		return false
 
 	filename = filename.replace(/\.html.*/, '.pug')
-	console.log(filename)
 
 	if (fs.existsSync(filename)) {
 
