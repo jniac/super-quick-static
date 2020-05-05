@@ -80,6 +80,10 @@ function ext(filename) {
 
 }
 
+// https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings/38641281
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator
+const collator = new Intl.Collator(undefined, { numeric:true, sensitivity:'base' })
+
 function getIndexFiles(filename) {
 
 	let files = fs.readdirSync(filename)
@@ -152,12 +156,10 @@ function getIndexFiles(filename) {
 		name = type === 'folder' ? name : name.replace(/\.\w{1,4}$/, '')
 
 		file.sortKey = `${type}-${name.toLowerCase()}-${superFile ? 'superFile' : ''}`
-
-
 	}
 
-	return array.sort((A, B) => A.sortKey > B.sortKey ? 1 : -1)
-
+	// return array.sort((A, B) => A.sortKey > B.sortKey ? 1 : -1)
+	return array.sort((A, B) => collator.compare(A.sortKey, B.sortKey))
 }
 
 const lookForHtml = (filename, res) => {
